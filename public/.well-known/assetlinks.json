@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ch.liquidapp.main",
+      "sha256_cert_fingerprints": [
+        "5A:C3:6E:2A:8C:3A:38:8D:63:FE:9C:C9:44:74:9F:48:7B:FC:7C:F5:75:69:D0:E1:77:5D:FD:3B:46:8A:41:6E"
+      ]
+    }
+  }
+]
