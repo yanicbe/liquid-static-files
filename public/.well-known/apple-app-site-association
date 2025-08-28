@@ -1,0 +1,27 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "J5SQ89H943.ch.liquid-app.main"
+        ],
+        "components": [
+          {
+            "/": "*",
+            "comment": "Matches all routes"
+          }
+        ]
+      }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "J5SQ89H943.ch.liquid-app.main"
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "J5SQ89H943.ch.liquid-app.main"
+    ]
+  }
+}
