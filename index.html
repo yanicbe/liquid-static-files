@@ -103,18 +103,36 @@
           ? normalizedRedirectedPath.split("?")[0].split("#")[0]
           : window.location.pathname;
         const isAndroid = /Android/.test(navigator.userAgent);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const iosAppUrl = `liquid://redirect.liquid-app.ch${currentPath}`;
         const androidIntentUrl = `intent://redirect.liquid-app.ch${currentPath}#Intent;scheme=liquid;package=ch.liquidapp.main;end`;
+        const appStoreUrl = "https://apps.apple.com/app/6742995389";
         const playStoreUrl = "https://play.google.com/store/apps/details?id=ch.liquidapp.main";
+        const websiteUrl = "https://liquid-app.ch";
         const shouldDeepLink = isMobile && currentPath !== "/";
-        const androidFallbackDelayMs = 5000;
-        const androidAutoRedirectEnabled = isAndroid && shouldDeepLink;
+        const appStoreFallbackDelayMs = 5000;
+        const websiteRedirectDelayMs = 2000;
 
-        if (androidAutoRedirectEnabled) {
-          window.location.href = androidIntentUrl;
-
+        if (shouldDeepLink) {
+          if (isIOS) {
+            window.location.href = iosAppUrl;
+            setTimeout(() => {
+              window.location.href = appStoreUrl;
+            }, appStoreFallbackDelayMs);
+          } else if (isAndroid) {
+            window.location.href = androidIntentUrl;
+            setTimeout(() => {
+              window.location.href = playStoreUrl;
+            }, appStoreFallbackDelayMs);
+          } else {
+            setTimeout(() => {
+              window.location.href = websiteUrl;
+            }, websiteRedirectDelayMs);
+          }
+        } else {
           setTimeout(() => {
-            window.location.href = playStoreUrl;
-          }, androidFallbackDelayMs);
+            window.location.href = websiteUrl;
+          }, websiteRedirectDelayMs);
         }
       })();
     </script>
