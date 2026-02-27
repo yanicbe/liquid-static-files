@@ -95,6 +95,20 @@
         word-break: break-word;
       }
     </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Liquid App Debug</h1>
+      <p>Android automatic redirect is enabled.</p>
+      <button id="open-android-intent" class="open-app-btn" type="button">Open Android Intent URL</button>
+      <div class="redirect-info">
+        <p>Android devices with deep-link paths auto-redirect; the button still triggers it manually.</p>
+      </div>
+      <div class="debug-panel">
+        <h2>Debug Variables</h2>
+        <pre id="debug-output">Collecting debug data...</pre>
+      </div>
+    </div>
 
     <script>
       // Universal link handling and redirect logic
@@ -161,19 +175,5 @@
         }
       })();
     </script>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Liquid App Debug</h1>
-      <p>Android automatic redirect is enabled.</p>
-      <button id="open-android-intent" class="open-app-btn" type="button">Open Android Intent URL</button>
-      <div class="redirect-info">
-        <p>Android devices with deep-link paths auto-redirect; the button still triggers it manually.</p>
-      </div>
-      <div class="debug-panel">
-        <h2>Debug Variables</h2>
-        <pre id="debug-output">Collecting debug data...</pre>
-      </div>
-    </div>
   </body>
 </html>
