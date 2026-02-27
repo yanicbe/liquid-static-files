@@ -56,6 +56,21 @@
         margin-top: 20px;
       }
 
+      .open-app-btn {
+        border: 0;
+        border-radius: 8px;
+        background: #0b57d0;
+        color: #fff;
+        padding: 12px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .open-app-btn:hover {
+        background: #0948ad;
+      }
+
       .debug-panel {
         margin-top: 20px;
         padding: 16px;
@@ -121,45 +136,23 @@
         if (debugEl) {
           debugEl.textContent = JSON.stringify(debugData, null, 2);
         }
-
-        // If it's mobile and has a specific path (deep link)
-        if (shouldDeepLink) {
-          // Try to open the app with the deep link
-          // If the app is installed, this will open it
-          // If not, it will fallback to the app stores
-
-          if (isIOS) {
-            // Try to open iOS app
-            window.location.href = iosAppUrl;
-
-            // Fallback to App Store after a delay
-            setTimeout(() => {
-              window.location.href = appStoreUrl;
-            }, 1500);
-          } else if (isAndroid) {
-            // Try to open Android app
+        const openAndroidIntentBtn = document.getElementById("open-android-intent");
+        if (openAndroidIntentBtn) {
+          openAndroidIntentBtn.addEventListener("click", () => {
             window.location.href = androidIntentUrl;
-
-            // Fallback to Play Store after a delay
-            setTimeout(() => {
-              window.location.href = playStoreUrl;
-            }, 1500);
-          }
-        } else {
-          // If not mobile or no specific path, redirect to main website after a short delay
-          setTimeout(() => {
-            window.location.href = websiteUrl;
-          }, 2000);
+          });
         }
+
       })();
     </script>
   </head>
   <body>
     <div class="container">
-      <h1>Opening Liquid App...</h1>
-      <p>If the app doesn't open automatically, you'll be redirected to our website.</p>
+      <h1>Liquid App Debug</h1>
+      <p>Automatic redirect is disabled for debugging.</p>
+      <button id="open-android-intent" class="open-app-btn" type="button">Open Android Intent URL</button>
       <div class="redirect-info">
-        <p>Redirecting to <strong>liquid-app.ch</strong> in a moment...</p>
+        <p>Use the button above to manually trigger the Android deep link.</p>
       </div>
       <div class="debug-panel">
         <h2>Debug Variables</h2>
