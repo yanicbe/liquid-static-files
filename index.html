@@ -128,7 +128,7 @@
         const androidIntentUrl = `intent://redirect.liquid-app.ch${currentPath}#Intent;scheme=liquid;package=ch.liquidapp.main;end`;
         const appStoreUrl = "https://apps.apple.com/app/6742995389";
         const playStoreUrl = "https://play.google.com/store/apps/details?id=ch.liquidapp.main";
-        const websiteUrl = "https://liquid-app.ch";
+        // const websiteUrl = "https://liquid-app.ch";
         const shouldDeepLink = isMobile && currentPath !== "/";
         const androidFallbackDelayMs = 5000;
         const androidAutoRedirectEnabled = isAndroid && shouldDeepLink;
@@ -148,7 +148,7 @@
           androidIntentUrl,
           appStoreUrl,
           playStoreUrl,
-          websiteUrl,
+          // websiteUrl,
           androidFallbackDelayMs,
           androidAutoRedirectEnabled,
           timestamp: new Date().toISOString(),
