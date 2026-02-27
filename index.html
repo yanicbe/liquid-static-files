@@ -142,7 +142,6 @@
             window.location.href = androidIntentUrl;
           });
         }
-
       })();
     </script>
   </head>
@@ -150,7 +149,16 @@
     <div class="container">
       <h1>Liquid App Debug</h1>
       <p>Automatic redirect is disabled for debugging.</p>
-      <button id="open-android-intent" class="open-app-btn" type="button">Open Android Intent URL</button>
+      <button
+        id="open-android-intent"
+        class="open-app-btn"
+        type="button"
+        onclick="
+          window.location.href = 'intent://redirect.liquid-app.ch#Intent;scheme=liquid;package=ch.liquidapp.main;end'
+        "
+      >
+        Open Android Intent URL
+      </button>
       <div class="redirect-info">
         <p>Use the button above to manually trigger the Android deep link.</p>
       </div>
