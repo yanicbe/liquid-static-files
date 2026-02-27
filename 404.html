@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Liquid App - Page Not Found</title>
     <script>
-      // Preserve the original deep-link path by storing it in a query param,
-      // then send users to index.html where app redirect logic runs.
-      var path = window.location.pathname + window.location.search + window.location.hash;
-      var redirectUrl = "/?redirect_path=" + encodeURIComponent(path);
+      // Preserve the original deep-link path in plain form so index.html
+      // can consume it directly without extra encoding/decoding steps.
+      var path = window.location.pathname + window.location.search;
+      var redirectUrl = "/?redirect_path=" + path;
       window.location.replace(redirectUrl);
     </script>
   </head>
