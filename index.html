@@ -69,15 +69,39 @@
     <script>
       // Universal link handling and redirect logic
       (function () {
+        function safeDecodePath(value) {
+          if (!value) return "";
+
+          var decoded = value;
+          for (var i = 0; i < 3; i += 1) {
+            try {
+              var next = decodeURIComponent(decoded);
+              if (next === decoded) break;
+              decoded = next;
+            } catch (e) {
+              break;
+            }
+          }
+
+          return decoded;
+        }
+
         // Check if we're on mobile
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
         // Get the current path
         const urlParams = new URLSearchParams(window.location.search);
         const redirectedPathRaw = urlParams.get("redirect_path");
-        const redirectedPath = redirectedPathRaw ? decodeURIComponent(redirectedPathRaw) : "";
+        const redirectedPath = safeDecodePath(redirectedPathRaw || "");
         const hasRedirectedPath = Boolean(redirectedPath);
-        const currentPath = hasRedirectedPath ? redirectedPath.split("?")[0].split("#")[0] : window.location.pathname;
+        const normalizedRedirectedPath = hasRedirectedPath
+          ? redirectedPath.charAt(0) === "/"
+            ? redirectedPath
+            : "/" + redirectedPath
+          : "";
+        const currentPath = hasRedirectedPath
+          ? normalizedRedirectedPath.split("?")[0].split("#")[0]
+          : window.location.pathname;
         const isAndroid = /Android/.test(navigator.userAgent);
         const androidIntentUrl = `intent://redirect.liquid-app.ch${currentPath}#Intent;scheme=liquid;package=ch.liquidapp.main;end`;
         const playStoreUrl = "https://play.google.com/store/apps/details?id=ch.liquidapp.main";
