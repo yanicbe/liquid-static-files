@@ -64,6 +64,7 @@
       <div class="redirect-info">
         <p>Redirecting to <strong>liquid-app.ch</strong> in a moment...</p>
       </div>
+      <button id="android">open app manually</button>
     </div>
 
     <script>
@@ -112,6 +113,10 @@
         const shouldDeepLink = isMobile && currentPath !== "/";
         const appStoreFallbackDelayMs = 5000;
         const websiteRedirectDelayMs = 2000;
+
+        document.getElementById("android").addEventListener("click", () => {
+          window.location.href = androidIntentUrl;
+        });
 
         if (shouldDeepLink) {
           if (isIOS) {
