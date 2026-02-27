@@ -119,7 +119,11 @@
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
         // Get the current path
-        const currentPath = window.location.pathname;
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectedPathRaw = urlParams.get("redirect_path");
+        const redirectedPath = redirectedPathRaw ? decodeURIComponent(redirectedPathRaw) : "";
+        const hasRedirectedPath = Boolean(redirectedPath);
+        const currentPath = hasRedirectedPath ? redirectedPath.split("?")[0].split("#")[0] : window.location.pathname;
         const currentSearch = window.location.search;
         const currentHash = window.location.hash;
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -141,6 +145,9 @@
           isIOS,
           isAndroid,
           currentPath,
+          redirectedPathRaw,
+          redirectedPath,
+          hasRedirectedPath,
           currentSearch,
           currentHash,
           shouldDeepLink,
