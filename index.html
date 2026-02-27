@@ -116,7 +116,12 @@
         const playStoreUrl = "https://play.google.com/store/apps/details?id=ch.liquidapp.main";
         const websiteUrl = "https://liquid-app.ch";
         const shouldDeepLink = isMobile && currentPath !== "/";
+        const androidFallbackDelayMs = 5000;
+        const androidAutoRedirectEnabled = isAndroid && shouldDeepLink;
+        const openAndroidIntentBtn = document.getElementById("open-android-intent");
         const debugData = {
+          debugElPresent: Boolean(debugEl),
+          openAndroidIntentBtnPresent: Boolean(openAndroidIntentBtn),
           userAgent: navigator.userAgent,
           isMobile,
           isIOS,
@@ -130,17 +135,26 @@
           appStoreUrl,
           playStoreUrl,
           websiteUrl,
+          androidFallbackDelayMs,
+          androidAutoRedirectEnabled,
           timestamp: new Date().toISOString(),
         };
 
         if (debugEl) {
           debugEl.textContent = JSON.stringify(debugData, null, 2);
         }
-        const openAndroidIntentBtn = document.getElementById("open-android-intent");
         if (openAndroidIntentBtn) {
           openAndroidIntentBtn.addEventListener("click", () => {
             window.location.href = androidIntentUrl;
           });
+        }
+
+        if (androidAutoRedirectEnabled) {
+          window.location.href = androidIntentUrl;
+
+          setTimeout(() => {
+            window.location.href = playStoreUrl;
+          }, androidFallbackDelayMs);
         }
       })();
     </script>
@@ -148,19 +162,12 @@
   <body>
     <div class="container">
       <h1>Liquid App Debug</h1>
-      <p>Automatic redirect is disabled for debugging.</p>
-      <button
-        id="open-android-intent"
-        class="open-app-btn"
-        type="button"
-        onclick="
-          window.location.href = 'intent://redirect.liquid-app.ch#Intent;scheme=liquid;package=ch.liquidapp.main;end'
-        "
-      >
+      <p>Android automatic redirect is enabled.</p>
+      <button id="open-android-intent" class="open-app-btn" type="button">
         Open Android Intent URL
       </button>
       <div class="redirect-info">
-        <p>Use the button above to manually trigger the Android deep link.</p>
+        <p>Android devices with deep-link paths auto-redirect; the button still triggers it manually.</p>
       </div>
       <div class="debug-panel">
         <h2>Debug Variables</h2>
