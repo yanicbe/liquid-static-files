@@ -87,6 +87,21 @@
           return decoded;
         }
 
+        function pathWithEncodedQuery(pathWithQuery) {
+          const queryIndex = pathWithQuery.indexOf("?");
+          if (queryIndex === -1) return pathWithQuery;
+
+          const pathname = pathWithQuery.slice(0, queryIndex);
+          const params = new URLSearchParams(pathWithQuery.slice(queryIndex + 1));
+          const search = params.toString();
+          return search ? pathname + "?" + search : pathname;
+        }
+
+        function pathForAndroidIntent(pathWithQuery) {
+          // Intent URLs use ';' and '&' as delimiters — encode '&' in the query part.
+          return pathWithEncodedQuery(pathWithQuery).replace(/&/g, "%26");
+        }
+
         // Check if we're on mobile
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -100,13 +115,24 @@
             ? redirectedPath
             : "/" + redirectedPath
           : "";
-        const currentPath = hasRedirectedPath
-          ? normalizedRedirectedPath.split("?")[0].split("#")[0]
-          : window.location.pathname;
+        let currentPath = hasRedirectedPath
+          ? normalizedRedirectedPath.split("#")[0]
+          : window.location.pathname + window.location.search;
+
+        // If 404 forwarded without encoding, token/mail may be separate query params.
+        if (hasRedirectedPath && !currentPath.includes("?")) {
+          const extraParams = new URLSearchParams(window.location.search);
+          extraParams.delete("redirect_path");
+          const extraQuery = extraParams.toString();
+          if (extraQuery) {
+            currentPath += "?" + extraQuery;
+          }
+        }
+        const deepLinkPath = pathWithEncodedQuery(currentPath);
         const isAndroid = /Android/.test(navigator.userAgent);
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const iosAppUrl = `liquid://redirect.liquid-app.ch${currentPath}`;
-        const androidIntentUrl = `intent://redirect.liquid-app.ch${currentPath}#Intent;scheme=https;package=ch.liquidapp.main;end`;
+        const iosAppUrl = `liquid://redirect.liquid-app.ch${deepLinkPath}`;
+        const androidIntentUrl = `intent://redirect.liquid-app.ch${pathForAndroidIntent(currentPath)}#Intent;scheme=https;package=ch.liquidapp.main;end`;
         const appStoreUrl = "https://apps.apple.com/app/6742995389";
         const playStoreUrl = "https://play.google.com/store/apps/details?id=ch.liquidapp.main";
         const websiteUrl = "https://liquid-app.ch";

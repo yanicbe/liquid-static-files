@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Liquid App - Page Not Found</title>
     <script>
-      // Preserve the original deep-link path in plain form so index.html
-      // can consume it directly without extra encoding/decoding steps.
+      // Encode so token/mail (& and ?) stay inside redirect_path on index.html.
       var path = window.location.pathname + window.location.search;
-      var redirectUrl = "/?redirect_path=" + path;
+      var redirectUrl = "/?redirect_path=" + encodeURIComponent(path);
       window.location.replace(redirectUrl);
     </script>
   </head>
