@@ -92,14 +92,11 @@
           if (queryIndex === -1) return pathWithQuery;
 
           const pathname = pathWithQuery.slice(0, queryIndex);
-          const params = new URLSearchParams(pathWithQuery.slice(queryIndex + 1));
+          // URLSearchParams treats '+' as space — preserve literal plus signs in values (e.g. email).
+          const rawQuery = pathWithQuery.slice(queryIndex + 1).replace(/\+/g, "%2B");
+          const params = new URLSearchParams(rawQuery);
           const search = params.toString();
           return search ? pathname + "?" + search : pathname;
-        }
-
-        function pathForAndroidIntent(pathWithQuery) {
-          // Intent URLs use ';' and '&' as delimiters — encode '&' in the query part.
-          return pathWithEncodedQuery(pathWithQuery).replace(/&/g, "%26");
         }
 
         // Check if we're on mobile
@@ -132,7 +129,8 @@
         const isAndroid = /Android/.test(navigator.userAgent);
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const iosAppUrl = `liquid://redirect.liquid-app.ch${deepLinkPath}`;
-        const androidIntentUrl = `intent://redirect.liquid-app.ch${pathForAndroidIntent(currentPath)}#Intent;scheme=https;package=ch.liquidapp.main;end`;
+        // Keep normal '&' between query params — '%26' merges them into one broken value on Android.
+        const androidIntentUrl = `intent://redirect.liquid-app.ch${deepLinkPath}#Intent;scheme=https;package=ch.liquidapp.main;end`;
         const appStoreUrl = "https://apps.apple.com/app/6742995389";
         const playStoreUrl = "https://play.google.com/store/apps/details?id=ch.liquidapp.main";
         const websiteUrl = "https://liquid-app.ch";
