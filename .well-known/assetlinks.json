@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "ch.liquidapp.main",
       "sha256_cert_fingerprints": [
-        "5A:C3:6E:2A:8C:3A:38:8D:63:FE:9C:C9:44:74:9F:48:7B:FC:7C:F5:75:69:D0:E1:77:5D:FD:3B:46:8A:41:6E"
+        "5A:C3:6E:2A:8C:3A:38:8D:63:FE:9C:C9:44:74:9F:48:7B:FC:7C:F5:75:69:D0:E1:77:5D:FD:3B:46:8A:41:6E",
+        "5B:01:65:D8:1A:04:75:4E:DB:E9:25:CA:28:90:70:0A:FC:E9:54:2B:D4:8A:34:D0:10:C4:7F:8E:F8:AC:67:1F"
       ]
     }
   }
